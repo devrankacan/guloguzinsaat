@@ -7,6 +7,7 @@ import serviceInsaat from "@/assets/images/service-insaat.webp";
 import serviceYikim from "@/assets/images/service-yikim.webp";
 import serviceHafriyat from "@/assets/images/service-hafriyat.webp";
 import servicesBlueprint from "@/assets/images/services-blueprint.webp";
+import hafriyatTruck from "@/assets/images/hafriyat-truck.webp";
 
 export const SITE = {
   name: "Güloğuz İnşaat",
@@ -51,4 +52,5 @@ export const IMAGES = {
   yikim: serviceYikim,
   hafriyat: serviceHafriyat,
   servicesBlueprint,
+  excavatorAction: hafriyatTruck,
 };
