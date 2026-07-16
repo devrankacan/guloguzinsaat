@@ -26,7 +26,7 @@ const SERVICES = [
   },
 ];
 
-export default function ServicesIntro() {
+export default function ServicesIntro({ showCta = true }: { showCta?: boolean }) {
   return (
     <section className="relative overflow-hidden bg-cream">
       <Image
@@ -41,10 +41,12 @@ export default function ServicesIntro() {
           <h2 className="max-w-xl text-3xl font-extrabold text-ink sm:text-4xl">
             İnşaat, Yıkım, Hafriyat Hepsi Tek Çatı Altında.
           </h2>
-          <a href="/hizmetler" className="btn-gold">
-            Hizmetlerimiz
-            <ArrowUpRightIcon className="h-3.5 w-3.5" />
-          </a>
+          {showCta && (
+            <a href="/hizmetler" className="btn-gold">
+              Hizmetlerimiz
+              <ArrowUpRightIcon className="h-3.5 w-3.5" />
+            </a>
+          )}
         </div>
 
         <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
