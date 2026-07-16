@@ -4,7 +4,8 @@ import path from "path";
 import { readJsonFile, writeJsonFile } from "@/lib/server/store";
 
 const FILE = "projects.json";
-const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads", "projects");
+const UPLOAD_DIR = path.join(process.cwd(), "data", "uploads", "projects");
+const UPLOAD_URL_PREFIX = "/api/uploads/projects";
 
 export type ProjectRecord = {
   id: string;
@@ -64,14 +65,20 @@ async function saveImages(projectId: string, files: File[]): Promise<string[]> {
     const filename = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}${ext}`;
     const buffer = Buffer.from(await file.arrayBuffer());
     await writeFile(path.join(dir, filename), buffer);
-    saved.push(`/uploads/projects/${projectId}/${filename}`);
+    saved.push(`${UPLOAD_URL_PREFIX}/${projectId}/${filename}`);
   }
   return saved;
 }
 
 async function deleteImageFiles(images: string[]) {
   await Promise.allSettled(
-    images.map((img) => unlink(path.join(process.cwd(), "public", img.replace(/^\//, ""))))
+    images.map((img) => {
+      const relative = img.startsWith(UPLOAD_URL_PREFIX)
+        ? img.slice(UPLOAD_URL_PREFIX.length + 1)
+        : null;
+      if (!relative) return Promise.resolve();
+      return unlink(path.join(UPLOAD_DIR, relative));
+    })
   );
 }
 
