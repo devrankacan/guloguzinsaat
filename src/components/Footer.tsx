@@ -26,7 +26,7 @@ export default function Footer() {
           <Image
             src={IMAGES.logo}
             alt={SITE.name}
-            className="h-14 w-auto object-contain"
+            className="h-16 w-auto object-contain"
           />
           <ul className="mt-6 flex items-center gap-3">
             {[FacebookIcon, XTwitterIcon, LinkedinIcon, BehanceIcon].map((Icon, i) => (
