@@ -110,7 +110,7 @@ export default function Header() {
             >
               <SearchIcon className="h-5 w-5" />
             </button>
-            <a href="#iletisim" className="btn-gold hidden sm:inline-flex">
+            <a href="/iletisim" className="btn-gold hidden sm:inline-flex">
               Bize Ulaşın
               <ArrowUpRightIcon className="h-3.5 w-3.5" />
             </a>
