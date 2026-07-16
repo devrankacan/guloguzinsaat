@@ -96,6 +96,7 @@ export default function PhoneStatusLookup() {
                           fill
                           sizes="200px"
                           className="object-cover"
+                          unoptimized
                         />
                       </div>
                     ))}

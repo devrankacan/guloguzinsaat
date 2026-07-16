@@ -208,7 +208,7 @@ export default function ProjectManager({
                       removeImages.includes(img) ? "border-red-500 opacity-40" : "border-transparent"
                     }`}
                   >
-                    <Image src={img} alt="" fill className="object-cover" />
+                    <Image src={img} alt="" fill className="object-cover" unoptimized />
                   </button>
                 ))}
               </div>
