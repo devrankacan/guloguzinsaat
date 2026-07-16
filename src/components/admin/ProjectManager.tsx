@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { PROJECT_STAGES } from "@/lib/project-stages";
 
 type ProjectRecord = {
@@ -32,18 +32,19 @@ export default function ProjectManager({
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formOpen, setFormOpen] = useState(false);
   const [form, setForm] = useState(EMPTY_FORM);
-  const [files, setFiles] = useState<FileList | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
   const [removeImages, setRemoveImages] = useState<string[]>([]);
   const [existingImages, setExistingImages] = useState<string[]>([]);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   function openNewForm() {
     setEditingId(null);
     setForm(EMPTY_FORM);
     setExistingImages([]);
     setRemoveImages([]);
-    setFiles(null);
+    setFiles([]);
     setFormOpen(true);
     setMessage(null);
   }
@@ -58,7 +59,7 @@ export default function ProjectManager({
     });
     setExistingImages(project.images);
     setRemoveImages([]);
-    setFiles(null);
+    setFiles([]);
     setFormOpen(true);
     setMessage(null);
   }
@@ -67,6 +68,15 @@ export default function ProjectManager({
     setRemoveImages((prev) =>
       prev.includes(img) ? prev.filter((i) => i !== img) : [...prev, img]
     );
+  }
+
+  function addFiles(fileList: FileList | null) {
+    if (!fileList) return;
+    setFiles((prev) => [...prev, ...Array.from(fileList)]);
+  }
+
+  function removeStagedFile(index: number) {
+    setFiles((prev) => prev.filter((_, i) => i !== index));
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -79,9 +89,7 @@ export default function ProjectManager({
     data.set("projectName", form.projectName);
     data.set("stage", String(form.stage));
     data.set("note", form.note);
-    if (files) {
-      Array.from(files).forEach((file) => data.append("images", file));
-    }
+    files.forEach((file) => data.append("images", file));
     removeImages.forEach((img) => data.append("removeImages", img));
 
     try {
@@ -196,36 +204,86 @@ export default function ProjectManager({
           {existingImages.length > 0 && (
             <div>
               <label className="text-xs font-bold uppercase text-ink/60">
-                Mevcut Görseller (kaldırmak için tıklayın)
+                Mevcut Görseller
               </label>
               <div className="mt-2 flex flex-wrap gap-3">
-                {existingImages.map((img) => (
-                  <button
-                    type="button"
-                    key={img}
-                    onClick={() => toggleRemoveImage(img)}
-                    className={`relative h-20 w-20 overflow-hidden border-2 ${
-                      removeImages.includes(img) ? "border-red-500 opacity-40" : "border-transparent"
-                    }`}
-                  >
-                    <Image src={img} alt="" fill className="object-cover" unoptimized />
-                  </button>
-                ))}
+                {existingImages.map((img) => {
+                  const marked = removeImages.includes(img);
+                  return (
+                    <div key={img} className="relative h-24 w-24">
+                      <div
+                        className={`relative h-full w-full overflow-hidden border-2 ${
+                          marked ? "border-red-500 opacity-40" : "border-ink/10"
+                        }`}
+                      >
+                        <Image src={img} alt="" fill className="object-cover" unoptimized />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => toggleRemoveImage(img)}
+                        aria-label={marked ? "Silmekten vazgeç" : "Görseli sil"}
+                        className={`absolute -right-2 -top-2 flex h-7 w-7 items-center justify-center rounded-full border-2 border-white text-sm font-extrabold text-white shadow ${
+                          marked ? "bg-ink/60" : "bg-red-600 hover:bg-red-700"
+                        }`}
+                      >
+                        {marked ? "↺" : "✕"}
+                      </button>
+                    </div>
+                  );
+                })}
               </div>
+              {removeImages.length > 0 && (
+                <p className="mt-2 text-xs font-semibold text-red-600">
+                  {removeImages.length} görsel kaydedildiğinde silinecek.
+                </p>
+              )}
             </div>
           )}
 
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col gap-2">
             <label className="text-xs font-bold uppercase text-ink/60">
-              Yeni Görsel Ekle
+              Görsel Ekle
             </label>
             <input
+              ref={fileInputRef}
               type="file"
               accept="image/*"
               multiple
-              onChange={(e) => setFiles(e.target.files)}
-              className="text-sm"
+              onChange={(e) => addFiles(e.target.files)}
+              className="hidden"
             />
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className="btn-gold w-fit"
+            >
+              Bilgisayardan Görsel Seç
+            </button>
+
+            {files.length > 0 && (
+              <div className="mt-2 flex flex-wrap gap-3">
+                {files.map((file, i) => (
+                  <div key={i} className="relative h-24 w-24">
+                    <div className="relative h-full w-full overflow-hidden border-2 border-gold">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={URL.createObjectURL(file)}
+                        alt={file.name}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => removeStagedFile(i)}
+                      aria-label="Seçimi kaldır"
+                      className="absolute -right-2 -top-2 flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-red-600 text-sm font-extrabold text-white shadow hover:bg-red-700"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="flex flex-wrap gap-3">
