@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+:root {
+  --color-navy: #14141e;
+  --color-navy-dark: #0b0b12;
+  --color-gold: #c8a445;
+  --color-gold-dark: #b08f36;
+  --color-cream: #f7f2e6;
+  --color-ink: #1c1c26;
+}
+
+@theme inline {
+  --color-navy: var(--color-navy);
+  --color-navy-dark: var(--color-navy-dark);
+  --color-gold: var(--color-gold);
+  --color-gold-dark: var(--color-gold-dark);
+  --color-cream: var(--color-cream);
+  --color-ink: var(--color-ink);
+  --font-sans: var(--font-nunito-sans);
+}
+
+body {
+  color: var(--color-ink);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--color-gold);
+  color: #1c1c26;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  padding: 0.9rem 1.6rem;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-gold:hover {
+  background-color: var(--color-gold-dark);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  padding: 0.9rem 1.6rem;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-outline:hover {
+  border-color: #fff;
+  background-color: rgba(255, 255, 255, 0.08);
+}
