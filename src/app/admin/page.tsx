@@ -24,8 +24,7 @@ export default async function AdminDashboardPage() {
 
         <div className="mt-8">
           <InstagramSettingsForm
-            hasToken={Boolean(settings.accessToken)}
-            tokenExpiresAt={settings.tokenExpiresAt}
+            hasFeed={Boolean(settings.feedId)}
             lastSyncedAt={settings.lastSyncedAt}
             lastError={settings.lastError}
             postCount={settings.posts.length}
