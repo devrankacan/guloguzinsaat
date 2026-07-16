@@ -1,3 +1,13 @@
+import logoGold from "@/assets/images/logo-gold.webp";
+import logoIcon from "@/assets/images/logo-icon.webp";
+import heroCrane from "@/assets/images/hero-crane.webp";
+import whyTall from "@/assets/images/why-tall.webp";
+import whySmall from "@/assets/images/why-small.webp";
+import serviceInsaat from "@/assets/images/service-insaat.webp";
+import serviceYikim from "@/assets/images/service-yikim.webp";
+import serviceHafriyat from "@/assets/images/service-hafriyat.webp";
+import servicesBlueprint from "@/assets/images/services-blueprint.webp";
+
 export const SITE = {
   name: "Güloğuz İnşaat",
   tagline: "Yıkım Hafriyat",
@@ -31,14 +41,14 @@ export const SOCIAL_LINKS = [
   { label: "Instagram", href: "#" },
 ] as const;
 
-const WP_UPLOADS = "https://guloguzinsaatyikimhafriyat.com/wp-content/uploads/2025/08";
-
 export const IMAGES = {
-  logo: `${WP_UPLOADS}/logo3-1-1024x640.png`,
-  heroMain: `${WP_UPLOADS}/New-Project-33.jpg`,
-  whyTall: `${WP_UPLOADS}/New-Project-33-226x300.jpg`,
-  whySmall: `${WP_UPLOADS}/New-Project-34.jpg`,
-  insaat: `${WP_UPLOADS}/959381ef0ddf7e9d8f53a7f9176f40b0-1024x730.png`,
-  yikim: `${WP_UPLOADS}/exc_ec750ehr_002_emea_66230-1024x683.jpg`,
-  hafriyat: `${WP_UPLOADS}/76-1024x692.jpg`,
+  logo: logoGold,
+  logoIcon,
+  heroMain: heroCrane,
+  whyTall,
+  whySmall,
+  insaat: serviceInsaat,
+  yikim: serviceYikim,
+  hafriyat: serviceHafriyat,
+  servicesBlueprint,
 };

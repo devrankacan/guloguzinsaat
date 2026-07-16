@@ -66,10 +66,8 @@ export default function Header() {
             <Image
               src={IMAGES.logo}
               alt={SITE.name}
-              width={168}
-              height={105}
               className="h-14 w-auto object-contain"
-              priority
+              preload
             />
           </Link>
 

@@ -26,8 +26,6 @@ export default function Footer() {
           <Image
             src={IMAGES.logo}
             alt={SITE.name}
-            width={168}
-            height={105}
             className="h-14 w-auto object-contain"
           />
           <ul className="mt-6 flex items-center gap-3">

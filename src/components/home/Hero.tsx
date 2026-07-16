@@ -37,7 +37,7 @@ export default function Hero() {
               fill
               sizes="(max-width: 1320px) 100vw, 1320px"
               className="object-cover"
-              priority
+              preload
             />
           </div>
           <div className="absolute -bottom-4 left-1/2 flex -translate-x-1/2 gap-2">

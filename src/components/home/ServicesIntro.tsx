@@ -28,8 +28,15 @@ const SERVICES = [
 
 export default function ServicesIntro() {
   return (
-    <section className="bg-cream">
-      <div className="mx-auto max-w-[1320px] px-6 py-20">
+    <section className="relative overflow-hidden bg-cream">
+      <Image
+        src={IMAGES.servicesBlueprint}
+        alt=""
+        fill
+        aria-hidden
+        className="pointer-events-none select-none object-cover object-left opacity-[0.06]"
+      />
+      <div className="relative mx-auto max-w-[1320px] px-6 py-20">
         <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
           <h2 className="max-w-xl text-3xl font-extrabold text-ink sm:text-4xl">
             İnşaat, Yıkım, Hafriyat Hepsi Tek Çatı Altında.
