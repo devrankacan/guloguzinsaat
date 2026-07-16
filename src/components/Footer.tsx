@@ -78,6 +78,15 @@ export default function Footer() {
                 İletişim
               </Link>
             </li>
+            <li>
+              <Link
+                href="/insaatim-ne-durumda"
+                className="flex items-center gap-2 hover:text-gold"
+              >
+                <ArrowUpRightIcon className="h-3.5 w-3.5 text-gold" />
+                İnşaatım Ne Durumda?
+              </Link>
+            </li>
           </ul>
         </div>
 

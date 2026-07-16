@@ -110,6 +110,12 @@ export default function Header() {
             >
               <SearchIcon className="h-5 w-5" />
             </button>
+            <a
+              href="/insaatim-ne-durumda"
+              className="hidden items-center gap-2 border border-navy px-4 py-2.5 text-xs font-bold uppercase tracking-wide text-navy transition-colors hover:bg-navy hover:text-white md:inline-flex"
+            >
+              İnşaatım Ne Durumda?
+            </a>
             <a href="/iletisim" className="btn-gold hidden sm:inline-flex">
               Bize Ulaşın
               <ArrowUpRightIcon className="h-3.5 w-3.5" />
@@ -154,6 +160,15 @@ export default function Header() {
                   )}
                 </li>
               ))}
+              <li className="mt-2 border-t border-ink/10 pt-3">
+                <Link
+                  href="/insaatim-ne-durumda"
+                  className="block py-2 text-gold-dark"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  İnşaatım Ne Durumda?
+                </Link>
+              </li>
             </ul>
           </nav>
         )}
