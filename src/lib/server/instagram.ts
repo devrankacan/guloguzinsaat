@@ -1,99 +1,105 @@
+import { randomUUID } from "crypto";
+import { mkdir, unlink, writeFile } from "fs/promises";
+import path from "path";
 import { readJsonFile, writeJsonFile } from "@/lib/server/store";
 
 const FILE = "instagram.json";
-const BEHOLD_BASE = "https://feeds.behold.so";
+const UPLOAD_DIR = path.join(process.cwd(), "data", "uploads", "instagram");
+const UPLOAD_URL_PREFIX = "/api/uploads/instagram";
 
 export type InstagramPost = {
   id: string;
-  caption?: string;
-  mediaType: "IMAGE" | "VIDEO" | "CAROUSEL_ALBUM";
-  mediaUrl: string;
-  thumbnailUrl?: string;
+  image: string;
+  caption: string;
   permalink: string;
-  timestamp: string;
+  createdAt: number;
 };
 
-export type InstagramSettings = {
-  feedId: string | null;
-  lastSyncedAt: number | null;
-  lastError: string | null;
-  posts: InstagramPost[];
-};
-
-const EMPTY_SETTINGS: InstagramSettings = {
-  feedId: null,
-  lastSyncedAt: null,
-  lastError: null,
-  posts: [],
-};
-
-export async function getInstagramSettings(): Promise<InstagramSettings> {
-  return readJsonFile(FILE, EMPTY_SETTINGS);
+async function getAll(): Promise<InstagramPost[]> {
+  return readJsonFile(FILE, []);
 }
 
-export async function saveFeedId(feedId: string) {
-  const settings = await getInstagramSettings();
-  settings.feedId = feedId;
-  settings.lastError = null;
-  await writeJsonFile(FILE, settings);
+async function saveAll(items: InstagramPost[]): Promise<void> {
+  await writeJsonFile(FILE, items);
 }
 
-type BeholdPost = {
-  id: string;
-  caption?: string;
-  mediaType?: string;
-  media_type?: string;
-  mediaUrl?: string;
-  media_url?: string;
-  thumbnailUrl?: string;
-  thumbnail_url?: string;
+export async function listInstagramPosts(): Promise<InstagramPost[]> {
+  const items = await getAll();
+  return items.sort((a, b) => b.createdAt - a.createdAt);
+}
+
+async function saveImageBuffer(id: string, buffer: Buffer, ext: string): Promise<string> {
+  await mkdir(UPLOAD_DIR, { recursive: true });
+  const filename = `${id}${ext}`;
+  await writeFile(path.join(UPLOAD_DIR, filename), buffer);
+  return `${UPLOAD_URL_PREFIX}/${filename}`;
+}
+
+function extFromContentType(contentType: string | null): string {
+  if (contentType?.includes("png")) return ".png";
+  if (contentType?.includes("webp")) return ".webp";
+  return ".jpg";
+}
+
+async function deleteImageFile(image: string) {
+  if (!image.startsWith(UPLOAD_URL_PREFIX)) return;
+  const relative = image.slice(UPLOAD_URL_PREFIX.length + 1);
+  await unlink(path.join(UPLOAD_DIR, relative)).catch(() => {});
+}
+
+export async function addInstagramPostFromUrl(data: {
+  imageUrl: string;
+  caption: string;
   permalink: string;
-  timestamp?: string;
-  timestamp_string?: string;
-};
+}): Promise<InstagramPost> {
+  const res = await fetch(data.imageUrl);
+  if (!res.ok) throw new Error(`Görsel indirilemedi (${res.status})`);
+  const buffer = Buffer.from(await res.arrayBuffer());
 
-type BeholdResponse = {
-  posts?: BeholdPost[];
-  error?: string;
-};
+  const id = randomUUID();
+  const image = await saveImageBuffer(id, buffer, extFromContentType(res.headers.get("content-type")));
 
-export async function syncInstagramMedia(): Promise<InstagramSettings> {
-  const settings = await getInstagramSettings();
+  const post: InstagramPost = {
+    id,
+    image,
+    caption: data.caption.trim(),
+    permalink: data.permalink.trim() || "#",
+    createdAt: Date.now(),
+  };
 
-  if (!settings.feedId) {
-    settings.lastError = "Behold Feed ID tanımlı değil.";
-    await writeJsonFile(FILE, settings);
-    return settings;
-  }
+  const items = await getAll();
+  items.unshift(post);
+  await saveAll(items);
+  return post;
+}
 
-  const url = `${BEHOLD_BASE}/${encodeURIComponent(settings.feedId)}`;
+export async function addInstagramPostFromUpload(data: {
+  imageFile: File;
+  caption: string;
+  permalink: string;
+}): Promise<InstagramPost> {
+  const id = randomUUID();
+  const buffer = Buffer.from(await data.imageFile.arrayBuffer());
+  const ext = path.extname(data.imageFile.name) || ".jpg";
+  const image = await saveImageBuffer(id, buffer, ext);
 
-  try {
-    const res = await fetch(url, { cache: "no-store" });
-    const json = (await res.json()) as BeholdResponse;
+  const post: InstagramPost = {
+    id,
+    image,
+    caption: data.caption.trim(),
+    permalink: data.permalink.trim() || "#",
+    createdAt: Date.now(),
+  };
 
-    if (!res.ok || json.error || !json.posts) {
-      settings.lastError = json.error ?? `Behold API hatası (${res.status})`;
-      await writeJsonFile(FILE, settings);
-      return settings;
-    }
+  const items = await getAll();
+  items.unshift(post);
+  await saveAll(items);
+  return post;
+}
 
-    settings.posts = json.posts.map((item) => ({
-      id: item.id,
-      caption: item.caption,
-      mediaType: (item.mediaType ?? item.media_type ?? "IMAGE") as InstagramPost["mediaType"],
-      mediaUrl: item.mediaUrl ?? item.media_url ?? "",
-      thumbnailUrl: item.thumbnailUrl ?? item.thumbnail_url,
-      permalink: item.permalink,
-      timestamp: item.timestamp ?? item.timestamp_string ?? "",
-    }));
-    settings.lastSyncedAt = Date.now();
-    settings.lastError = null;
-    await writeJsonFile(FILE, settings);
-    return settings;
-  } catch (err) {
-    settings.lastError = err instanceof Error ? err.message : "Bilinmeyen hata";
-    await writeJsonFile(FILE, settings);
-    return settings;
-  }
+export async function deleteInstagramPost(id: string): Promise<void> {
+  const items = await getAll();
+  const target = items.find((p) => p.id === id);
+  await saveAll(items.filter((p) => p.id !== id));
+  if (target) await deleteImageFile(target.image);
 }

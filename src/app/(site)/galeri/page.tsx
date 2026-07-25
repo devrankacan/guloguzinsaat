@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import PageHeader from "@/components/PageHeader";
-import { getInstagramSettings } from "@/lib/server/instagram";
+import { listInstagramPosts } from "@/lib/server/instagram";
 import { InstagramIcon } from "@/components/icons";
 
 export const metadata: Metadata = {
@@ -10,8 +11,7 @@ export const metadata: Metadata = {
 export const revalidate = 0;
 
 export default async function GaleriPage() {
-  const settings = await getInstagramSettings();
-  const posts = settings.posts;
+  const posts = await listInstagramPosts();
 
   return (
     <>
@@ -37,12 +37,13 @@ export default async function GaleriPage() {
                   rel="noreferrer"
                   className="group relative block aspect-square overflow-hidden bg-cream"
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={post.mediaType === "VIDEO" ? post.thumbnailUrl : post.mediaUrl}
-                    alt={post.caption?.slice(0, 80) ?? "Instagram gönderisi"}
-                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    loading="lazy"
+                  <Image
+                    src={post.image}
+                    alt={post.caption.slice(0, 80) || "Instagram gönderisi"}
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    unoptimized
                   />
                   <div className="absolute inset-0 flex items-end bg-navy/0 p-4 opacity-0 transition-all duration-200 group-hover:bg-navy/50 group-hover:opacity-100">
                     <InstagramIcon className="h-6 w-6 text-white" />
