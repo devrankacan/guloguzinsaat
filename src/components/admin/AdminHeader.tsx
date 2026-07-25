@@ -8,12 +8,21 @@ export default function AdminHeader() {
     <header className="flex items-center justify-between bg-navy px-6 py-4">
       <div className="flex items-center gap-8">
         <Image src={IMAGES.logo} alt={SITE.name} className="h-10 w-auto object-contain" />
-        <nav className="hidden items-center gap-6 text-xs font-bold uppercase tracking-wide text-white/70 sm:flex">
+        <nav className="hidden flex-wrap items-center gap-6 text-xs font-bold uppercase tracking-wide text-white/70 lg:flex">
           <Link href="/admin" className="hover:text-gold">
             Instagram
           </Link>
           <Link href="/admin/projeler" className="hover:text-gold">
             Proje Takip
+          </Link>
+          <Link href="/admin/projelerimiz" className="hover:text-gold">
+            Projelerimiz
+          </Link>
+          <Link href="/admin/referanslar" className="hover:text-gold">
+            Referanslar
+          </Link>
+          <Link href="/admin/mesajlar" className="hover:text-gold">
+            Mesajlar
           </Link>
         </nav>
       </div>

@@ -2,7 +2,7 @@ import { readFile, stat } from "fs/promises";
 import path from "path";
 import { NextRequest, NextResponse } from "next/server";
 
-const UPLOAD_DIR = path.join(process.cwd(), "data", "uploads", "projects");
+const UPLOAD_DIR = path.join(process.cwd(), "data", "uploads");
 
 const CONTENT_TYPES: Record<string, string> = {
   ".jpg": "image/jpeg",

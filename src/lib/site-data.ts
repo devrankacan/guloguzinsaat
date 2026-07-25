@@ -33,6 +33,7 @@ export const NAV_LINKS = [
       { label: "Hafriyat", href: "/hafriyat" },
     ],
   },
+  { label: "Projeler", href: "/projeler" },
   { label: "Galeri", href: "/galeri" },
   { label: "İletişim", href: "/iletisim" },
 ] as const;

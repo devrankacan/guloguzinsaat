@@ -2,6 +2,8 @@ import AdminHeader from "@/components/admin/AdminHeader";
 import ProjectManager from "@/components/admin/ProjectManager";
 import { listProjects } from "@/lib/server/projects";
 
+export const revalidate = 0;
+
 export default async function AdminProjectsPage() {
   const projects = await listProjects();
 

@@ -2,6 +2,8 @@ import { getInstagramSettings } from "@/lib/server/instagram";
 import InstagramSettingsForm from "@/components/admin/InstagramSettingsForm";
 import AdminHeader from "@/components/admin/AdminHeader";
 
+export const revalidate = 0;
+
 export default async function AdminDashboardPage() {
   const settings = await getInstagramSettings();
 

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
+import ContactForm from "@/components/ContactForm";
 import { MailIcon, MapPinIcon, PhoneIcon } from "@/components/icons";
 import { SITE } from "@/lib/site-data";
 
@@ -37,6 +38,20 @@ export default function IletisimPage() {
                 <p className="text-sm leading-relaxed text-ink/70">{card.value}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-cream">
+        <div className="mx-auto max-w-[720px] px-6 py-20">
+          <h2 className="text-center text-3xl font-extrabold text-ink sm:text-4xl">
+            Bize Yazın
+          </h2>
+          <p className="mx-auto mt-4 max-w-md text-center text-ink/70">
+            Projeniz hakkında bilgi verin, en kısa sürede size dönüş yapalım.
+          </p>
+          <div className="mt-10">
+            <ContactForm />
           </div>
         </div>
       </section>

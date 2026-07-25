@@ -67,6 +67,12 @@ export default function Footer() {
               </Link>
             </li>
             <li>
+              <Link href="/projeler" className="flex items-center gap-2 hover:text-gold">
+                <ArrowUpRightIcon className="h-3.5 w-3.5 text-gold" />
+                Projeler
+              </Link>
+            </li>
+            <li>
               <Link href="/galeri" className="flex items-center gap-2 hover:text-gold">
                 <ArrowUpRightIcon className="h-3.5 w-3.5 text-gold" />
                 Galeri
