@@ -2,14 +2,14 @@ import Hero from "@/components/home/Hero";
 import StatsWhy from "@/components/home/StatsWhy";
 import ProcessSteps from "@/components/home/ProcessSteps";
 import ServicesIntro from "@/components/home/ServicesIntro";
-import Testimonials from "@/components/home/Testimonials";
+import BrandReferences from "@/components/home/BrandReferences";
 import CtaContact from "@/components/home/CtaContact";
-import { listTestimonials } from "@/lib/server/testimonials";
+import { listReferences } from "@/lib/server/references";
 
 export const revalidate = 0;
 
 export default async function Home() {
-  const testimonials = await listTestimonials();
+  const references = await listReferences();
 
   return (
     <>
@@ -17,7 +17,7 @@ export default async function Home() {
       <StatsWhy />
       <ProcessSteps />
       <ServicesIntro />
-      <Testimonials items={testimonials} />
+      <BrandReferences items={references} />
       <CtaContact />
     </>
   );

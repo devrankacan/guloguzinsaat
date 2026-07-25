@@ -25,7 +25,7 @@ export const config = {
     "/api/instagram/:path*",
     "/api/projects/:path*",
     "/api/portfolio/:path*",
-    "/api/testimonials/:path*",
+    "/api/references/:path*",
     "/api/messages/:path*",
   ],
 };
