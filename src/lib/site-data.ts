@@ -38,6 +38,59 @@ export const NAV_LINKS = [
   { label: "İletişim", href: "/iletisim" },
 ] as const;
 
+export const SEARCH_INDEX = [
+  {
+    title: "Anasayfa",
+    href: "/",
+    keywords: "anasayfa güloğuz inşaat yıkım hafriyat erzurum",
+  },
+  {
+    title: "Hakkımızda",
+    href: "/hakkimizda",
+    keywords: "hakkımızda kurumsal firma tecrübe ekip misyon vizyon",
+  },
+  {
+    title: "Hizmetler",
+    href: "/hizmetler",
+    keywords: "hizmetler inşaat yıkım hafriyat",
+  },
+  {
+    title: "İnşaat",
+    href: "/insaat",
+    keywords: "inşaat bina konut villa yapı mühendislik",
+  },
+  {
+    title: "Yıkım",
+    href: "/yikim",
+    keywords: "yıkım bina yıkımı kontrollü yıkım güvenli yıkım",
+  },
+  {
+    title: "Hafriyat",
+    href: "/hafriyat",
+    keywords: "hafriyat kazı taşıma dolgu saha düzenleme",
+  },
+  {
+    title: "Projeler",
+    href: "/projeler",
+    keywords: "projeler portfolyo referanslar müşteri yorumları tamamlanan projeler",
+  },
+  {
+    title: "Galeri",
+    href: "/galeri",
+    keywords: "galeri instagram fotoğraflar",
+  },
+  {
+    title: "İletişim",
+    href: "/iletisim",
+    keywords: "iletişim telefon adres email harita mesaj form",
+  },
+  {
+    title: "İnşaatım Ne Durumda?",
+    href: "/insaatim-ne-durumda",
+    keywords: "inşaatım ne durumda proje takip telefon sorgula aşama",
+  },
+] as const;
+
 export const SOCIAL_LINKS = [
   { label: "Facebook", href: "#" },
   { label: "X-twitter", href: "#" },

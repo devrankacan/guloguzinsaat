@@ -12,9 +12,9 @@ import {
   LocationIcon,
   MenuIcon,
   PhoneIcon,
-  SearchIcon,
   XTwitterIcon,
 } from "@/components/icons";
+import SearchBox from "@/components/SearchBox";
 import { IMAGES, NAV_LINKS, SITE } from "@/lib/site-data";
 
 export default function Header() {
@@ -104,12 +104,7 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-5">
-            <button
-              aria-label="Ara"
-              className="hidden text-ink transition-colors hover:text-gold-dark sm:block"
-            >
-              <SearchIcon className="h-5 w-5" />
-            </button>
+            <SearchBox />
             <a
               href="/insaatim-ne-durumda"
               className="hidden items-center gap-2 border border-navy px-4 py-2.5 text-xs font-bold uppercase tracking-wide text-navy transition-colors hover:bg-navy hover:text-white md:inline-flex"
