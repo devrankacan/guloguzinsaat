@@ -12,7 +12,7 @@ type InstagramPost = {
 };
 
 const BODY_TEMPLATE = (secret: string) =>
-  `{"secret": "${secret}", "imageUrl": "{{SourceUrl}}", "caption": "{{Caption}}", "permalink": "{{LinkToSource}}"}`;
+  `{"secret": "${secret}", "imageUrl": "{{SourceUrl}}", "caption": "{{Caption}}", "permalink": "{{Url}}"}`;
 
 function CopyButton({ value }: { value: string }) {
   const [copied, setCopied] = useState(false);
@@ -106,7 +106,7 @@ export default function InstagramManager({
         </p>
         <ol className="list-decimal space-y-1.5 pl-5 text-sm leading-relaxed text-ink/70">
           <li>
-            <strong>If This:</strong> Instagram &rarr; &quot;New photo by you&quot; seçin ve
+            <strong>If This:</strong> Instagram &rarr; &quot;Any new photo by you&quot; seçin ve
             Instagram hesabınızı bağlayın.
           </li>
           <li>
@@ -117,9 +117,8 @@ export default function InstagramManager({
             olarak <strong>application/json</strong> girin.
           </li>
           <li>
-            Body alanına aşağıdaki metni yapıştırın ({"{{...}}"}) kısımlarını IFTTT&apos;nin
-            &quot;Add ingredient&quot; listesinden seçerek doldurun (SourceUrl, Caption,
-            LinkToSource).
+            Body alanına aşağıdaki metni yapıştırın, ({"{{...}}"}) kısımlarını IFTTT&apos;nin
+            &quot;Add ingredient&quot; listesinden seçerek doldurun (SourceUrl, Caption, Url).
           </li>
         </ol>
 
