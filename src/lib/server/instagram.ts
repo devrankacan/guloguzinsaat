@@ -16,7 +16,10 @@ export type InstagramPost = {
 };
 
 async function getAll(): Promise<InstagramPost[]> {
-  return readJsonFile(FILE, []);
+  const data = await readJsonFile<unknown>(FILE, []);
+  // Older deployments stored a Behold-settings object under this same
+  // filename; guard against that leftover shape rather than crashing.
+  return Array.isArray(data) ? (data as InstagramPost[]) : [];
 }
 
 async function saveAll(items: InstagramPost[]): Promise<void> {
